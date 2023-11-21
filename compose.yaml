@@ -19,7 +19,7 @@ services:
       - --ws.api=admin,engine,net,eth,web3,debug
       - --ws.origins=*
       - --allow-insecure-unlock
-      - --nat=extip:88.99.94.109
+      - --nat=extip:${IP_ADDRESS}
       - --verbosity=3
       - --authrpc.port=8551
       - --authrpc.addr=0.0.0.0
@@ -30,6 +30,7 @@ services:
       - --metrics
       - --metrics.addr=0.0.0.0
       - --metrics.port=9001
+      - --port=50303
     volumes:
       - ./execution-data:/execution-data
       - ./el-cl-genesis-data:/el-cl-genesis-data
@@ -38,7 +39,7 @@ services:
       - "10546:8546" 
       - "10551:8551" 
       - "11001:9001" 
-      - "50303:30303"
+      - "50303:50303"
     restart: unless-stopped
 
   lighthouse-beacon:
@@ -50,11 +51,11 @@ services:
       - --datadir=/consensus-data
       - --testnet-dir=/el-cl-genesis-data/custom_config_data
       - --disable-enr-auto-update
-      - --enr-address=88.99.94.109
-      - --enr-udp-port=9000
-      - --enr-tcp-port=9000
+      - --enr-address=${IP_ADDRESS}
+      - --enr-udp-port=11000
+      - --enr-tcp-port=11000
       - --listen-address=0.0.0.0
-      - --port=9000
+      - --port=11000
       - --http
       - --http-address=0.0.0.0
       - --http-port=4000
@@ -73,8 +74,8 @@ services:
       - ./consensus-data:/consensus-data 
       - ./el-cl-genesis-data:/el-cl-genesis-data
     ports:
-      - "11000:9000/udp"
-      - "11000:9000/tcp" 
+      - "11000:11000/udp"
+      - "11000:11000/tcp" 
       - "4200:4000"
       - "7054:5054"
     depends_on:
