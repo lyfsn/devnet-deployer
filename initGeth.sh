@@ -1,6 +1,7 @@
 
 
 docker run \
+  --rm \
   -it \
   -v $(pwd)/execution-data:/execution-data \
   -v $(pwd)/config-example:/config \
