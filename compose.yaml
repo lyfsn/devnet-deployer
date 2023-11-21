@@ -1,0 +1,106 @@
+version: "3.8"
+
+services:
+  geth:
+    image: ethereum/client-go:v1.13.4
+    command:
+      - --networkid=28256
+      - --state.scheme=path
+      - --verbosity=3
+      - --datadir=/execution-data
+      - --http
+      - --http.addr=0.0.0.0
+      - --http.vhosts=*
+      - --http.corsdomain=*
+      - --http.api=admin,engine,net,eth,web3,debug
+      - --ws
+      - --ws.addr=0.0.0.0
+      - --ws.port=8546
+      - --ws.api=admin,engine,net,eth,web3,debug
+      - --ws.origins=*
+      - --allow-insecure-unlock
+      - --verbosity=3
+      - --authrpc.port=8551
+      - --authrpc.addr=0.0.0.0
+      - --authrpc.vhosts=*
+      - --authrpc.jwtsecret=/el-cl-genesis-data/jwt/jwtsecret
+      - --syncmode=full
+      - --rpc.allow-unprotected-txs
+      - --metrics
+      - --metrics.addr=0.0.0.0
+      - --metrics.port=9001
+    volumes:
+      - ./execution-data:/execution-data
+      - ./el-cl-genesis-data:/el-cl-genesis-data
+    ports:
+      - "10545:8545" 
+      - "10546:8546" 
+      - "10551:8551" 
+      - "11001:9001" 
+    restart: unless-stopped
+
+  lighthouse-beacon:
+    image: sigp/lighthouse:v4.5.0
+    command:
+      - lighthouse
+      - beacon_node
+      - --debug-level=info
+      - --datadir=/consensus-data
+      - --testnet-dir=/el-cl-genesis-data/custom_config_data
+      - --listen-address=0.0.0.0
+      - --port=9000
+      - --http
+      - --http-address=0.0.0.0
+      - --http-port=4000
+      - --http-allow-sync-stalled
+      - --slots-per-restore-point=32
+      - --disable-packet-filter
+      - --execution-endpoints=http://geth:8551
+      - --jwt-secrets=/el-cl-genesis-data/jwt/jwtsecret
+      - --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776
+      - --subscribe-all-subnets
+      - --metrics
+      - --metrics-address=0.0.0.0
+      - --metrics-allow-origin=*
+      - --metrics-port=5054
+    volumes:
+      - ./consensus-data:/consensus-data 
+      - ./el-cl-genesis-data:/el-cl-genesis-data
+    ports:
+      - "11000:9000/udp"
+      - "11000:9000/tcp" 
+      - "4200:4000"
+      - "7054:5054"
+    depends_on:
+      - geth
+    restart: unless-stopped
+
+  lighthouse-validator:
+    image: sigp/lighthouse:v4.5.0
+    command:
+      - lighthouse
+      - validator_client
+      - --debug-level=info
+      - --testnet-dir=/el-cl-genesis-data/custom_config_data
+      - --validators-dir=/validator-keys/node-0-keystores/keys
+      - --secrets-dir=/validator-keys/node-0-keystores/secrets
+      - --init-slashing-protection
+      - --http
+      - --unencrypted-http-transport
+      - --http-address=0.0.0.0
+      - --http-port=5042
+      - --beacon-nodes=http://lighthouse-beacon:4000
+      - --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776
+      - --metrics
+      - --metrics-address=0.0.0.0
+      - --metrics-allow-origin=*
+      - --metrics-port=5064
+    volumes:
+      - ./el-cl-genesis-data:/el-cl-genesis-data
+      - ./validator-keys:/validator-keys
+    ports:
+      - "7042:5042"
+      - "7064:5064"
+    depends_on:
+      - lighthouse-beacon
+    restart: unless-stopped
