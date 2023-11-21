@@ -6,6 +6,5 @@ consensus-data
 *sqlite*
 el-cl-genesis-data
 
-allocs.json
 *.lock
 *.log
