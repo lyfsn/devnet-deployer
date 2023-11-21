@@ -37,6 +37,7 @@ services:
       - "10546:8546" 
       - "10551:8551" 
       - "11001:9001" 
+      - "50303:30303"
     restart: unless-stopped
 
   lighthouse-beacon:
