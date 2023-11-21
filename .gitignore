@@ -5,3 +5,7 @@ consensus-data
 .idea
 *sqlite*
 el-cl-genesis-data
+
+allocs.json
+*.lock
+*.log
