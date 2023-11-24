@@ -1,5 +1,5 @@
 
-rm -rvf el-cl-genesis-data
+sudo rm -rvf el-cl-genesis-data
 
 docker run \
   -it \
