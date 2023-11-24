@@ -62,7 +62,7 @@ services:
       - --http-allow-sync-stalled
       - --slots-per-restore-point=32
       - --disable-packet-filter
-      - --execution-endpoints=http://geth:8551
+      - --execution-endpoints=http://execution:8551
       - --jwt-secrets=/el-cl-genesis-data/jwt/jwtsecret
       - --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776
       - --subscribe-all-subnets
@@ -79,7 +79,7 @@ services:
       - "4200:4000"
       - "7054:5054"
     depends_on:
-      - geth
+      - execution
     restart: unless-stopped
 
   validator:
@@ -96,7 +96,7 @@ services:
       - --unencrypted-http-transport
       - --http-address=0.0.0.0
       - --http-port=5042
-      - --beacon-nodes=http://lighthouse-beacon:4000
+      - --beacon-nodes=http://beacon:4000
       - --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776
       - --metrics
       - --metrics-address=0.0.0.0
@@ -109,5 +109,5 @@ services:
       - "7042:5042"
       - "7064:5064"
     depends_on:
-      - lighthouse-beacon
+      - beacon
     restart: unless-stopped
