@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  geth:
+  execution:
     image: ethereum/client-go:v1.13.4
     command:
       - --networkid=28256
@@ -42,7 +42,7 @@ services:
       - "50303:50303"
     restart: unless-stopped
 
-  lighthouse-beacon:
+  beacon:
     image: sigp/lighthouse:v4.5.0
     command:
       - lighthouse
@@ -82,7 +82,7 @@ services:
       - geth
     restart: unless-stopped
 
-  lighthouse-validator:
+  validator:
     image: sigp/lighthouse:v4.5.0
     command:
       - lighthouse
