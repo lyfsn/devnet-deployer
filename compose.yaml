@@ -66,6 +66,7 @@ services:
       - --jwt-secrets=/el-cl-genesis-data/jwt/jwtsecret
       - --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776
       - --subscribe-all-subnets
+      - --import-all-attestations
       - --metrics
       - --metrics-address=0.0.0.0
       - --metrics-allow-origin=*
