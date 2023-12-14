@@ -50,12 +50,12 @@ services:
       - --debug-level=info
       - --datadir=/consensus-data
       - --testnet-dir=/el-cl-genesis-data/custom_config_data
-      # - --disable-enr-auto-update
-      # - --enr-address=${IP_ADDRESS}
-      # - --enr-udp-port=11000
-      # - --enr-tcp-port=11000
+      - --disable-enr-auto-update
+      - --enr-address=${IP_ADDRESS}
+      - --enr-udp-port=9000
+      - --enr-tcp-port=9000
       - --listen-address=0.0.0.0
-      - --port=11000
+      - --port=9000
       - --http
       - --http-address=0.0.0.0
       - --http-port=4000
@@ -76,8 +76,7 @@ services:
       - ./consensus-data:/consensus-data 
       - ./el-cl-genesis-data:/el-cl-genesis-data
     ports:
-      - "11000:11000/udp"
-      - "11000:11000/tcp" 
+      - "11000:9000"
       - "4200:4000"
       - "7054:5054"
     depends_on:
