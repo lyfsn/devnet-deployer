@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   execution:
-    image: ethereum/client-go:v1.13.4
+    image: ethpandaops/geth:master-5b57727
     command:
       - --networkid=28256
       - --state.scheme=path
@@ -43,7 +43,7 @@ services:
     restart: unless-stopped
 
   beacon:
-    image: sigp/lighthouse:v4.5.0
+    image: ethpandaops/lighthouse:proposer-signature-cache-c59fa34
     command:
       - lighthouse
       - beacon_node
@@ -85,7 +85,7 @@ services:
     restart: unless-stopped
 
   validator:
-    image: sigp/lighthouse:v4.5.0
+    image: ethpandaops/lighthouse:proposer-signature-cache-c59fa34
     command:
       - lighthouse
       - validator_client
