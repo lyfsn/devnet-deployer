@@ -72,14 +72,14 @@ services:
       - --metrics-allow-origin=*
       - --metrics-port=5054
       - --disable-peer-scoring
-      - --trusted-peers=16Uiu2HAm4GXc2aYZkdfHvvn56s6zEdoSAwdiNcGkzvXX5y4MX4U4,16Uiu2HAm9Xpd6oiTaETf8iXSYgRxmYB1kcUrPbpSSr9Fw6GKntEY,16Uiu2HAm9qmd1hzebWyYbEoK3K8DX2axV3fZ1zowpEx5RWfvXVhP,16Uiu2HAkuYGKYKtbjDERBWrLi5zxNzxS7QhVE57FVBhjKc9zuzeC,16Uiu2HAmBgz3CnMLjzwGouC8kb1FMfw3rLJXBWEd2ddrENSGBGVT
-      - --boot-nodes=/ip4/88.99.94.109/tcp/11000/p2p/16Uiu2HAm4GXc2aYZkdfHvvn56s6zEdoSAwdiNcGkzvXX5y4MX4U4,/ip4/88.99.94.109/tcp/11100/p2p/16Uiu2HAm9Xpd6oiTaETf8iXSYgRxmYB1kcUrPbpSSr9Fw6GKntEY,/ip4/88.99.94.109/tcp/11200/p2p/16Uiu2HAm9qmd1hzebWyYbEoK3K8DX2axV3fZ1zowpEx5RWfvXVhP,/ip4/88.99.94.109/tcp/17800/p2p/16Uiu2HAkuYGKYKtbjDERBWrLi5zxNzxS7QhVE57FVBhjKc9zuzeC,/ip4/88.99.94.109/tcp/12300/p2p/16Uiu2HAmBgz3CnMLjzwGouC8kb1FMfw3rLJXBWEd2ddrENSGBGVT
+      - --enable-private-discovery=true
       - --target-peers=16
     volumes:
       - ./consensus-data:/consensus-data 
       - ./el-cl-genesis-data:/el-cl-genesis-data
     ports:
-      - "11000:11000"
+      - "11000:11000/udp"
+      - "11000:11000/tcp"
       - "4200:4000"
       - "7054:5054"
     depends_on:
