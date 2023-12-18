@@ -31,6 +31,7 @@ services:
       - --metrics.addr=0.0.0.0
       - --metrics.port=9001
       - --port=50303
+      - --discovery.port=50303
     volumes:
       - ./execution-data:/execution-data
       - ./el-cl-genesis-data:/el-cl-genesis-data
@@ -39,7 +40,8 @@ services:
       - "10546:8546" 
       - "10551:8551" 
       - "11001:9001" 
-      - "50303:50303"
+      - "50303:50303/udp"
+      - "50303:50303/tcp"
     restart: unless-stopped
 
   beacon:
